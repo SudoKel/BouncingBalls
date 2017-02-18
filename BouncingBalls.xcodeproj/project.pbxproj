@@ -15,6 +15,7 @@
 		143843601E58AB5300A242CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1438435E1E58AB5300A242CF /* LaunchScreen.storyboard */; };
 		1438436B1E58AB5300A242CF /* BouncingBallsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1438436A1E58AB5300A242CF /* BouncingBallsTests.m */; };
 		143843761E58AB5300A242CF /* BouncingBallsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 143843751E58AB5300A242CF /* BouncingBallsUITests.m */; };
+		143843851E58E0CD00A242CF /* BallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 143843841E58E0CD00A242CF /* BallView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		143843711E58AB5300A242CF /* BouncingBallsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BouncingBallsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		143843751E58AB5300A242CF /* BouncingBallsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BouncingBallsUITests.m; sourceTree = "<group>"; };
 		143843771E58AB5300A242CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		143843831E58E0CD00A242CF /* BallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallView.h; sourceTree = "<group>"; };
+		143843841E58E0CD00A242CF /* BallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BallView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 		1438434F1E58AB5300A242CF /* BouncingBalls */ = {
 			isa = PBXGroup;
 			children = (
+				143843831E58E0CD00A242CF /* BallView.h */,
+				143843841E58E0CD00A242CF /* BallView.m */,
 				143843531E58AB5300A242CF /* AppDelegate.h */,
 				143843541E58AB5300A242CF /* AppDelegate.m */,
 				143843561E58AB5300A242CF /* ViewController.h */,
@@ -273,6 +278,7 @@
 				143843581E58AB5300A242CF /* ViewController.m in Sources */,
 				143843551E58AB5300A242CF /* AppDelegate.m in Sources */,
 				143843521E58AB5300A242CF /* main.m in Sources */,
+				143843851E58E0CD00A242CF /* BallView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

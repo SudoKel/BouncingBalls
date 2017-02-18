@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  BouncingBalls
 //
-//  Created by Kelel on 2017-02-18.
+//  Created by Kelwin Joanes on 2017-02-18.
 //  Copyright © 2017 com.kelel. All rights reserved.
 //
 

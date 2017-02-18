@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  BallView.h
 //  BouncingBalls
 //
 //  Created by Kelwin Joanes on 2017-02-18.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface BallView : UIView
 
 @end
-
