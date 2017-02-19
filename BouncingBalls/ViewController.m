@@ -10,11 +10,10 @@
 #import "BallView.h"
 
 @interface ViewController ()
-    @property (nonatomic,strong) UILongPressGestureRecognizer *longPress;
+@property (nonatomic,strong) UILongPressGestureRecognizer *longPress;
 @end
 
 @implementation ViewController
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -37,7 +36,6 @@
  */
 - (void)addNewBall:(UILongPressGestureRecognizer *)sender
 {
-    // Add a ball when the long press begins
     if (sender.state == UIGestureRecognizerStateBegan)
     {
         // Get the location of the longpress
@@ -51,6 +49,4 @@
         [self.view addSubview:newBall];
     }
 }
-
-
 @end
