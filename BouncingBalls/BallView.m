@@ -14,8 +14,13 @@
         // Create current context
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        // Set the fill color
-        CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
+        // Generate a random color
+        CGFloat h = (arc4random() % 256 / 256.0); // 0.0 to 1.0
+        CGFloat s = (arc4random() % 128 / 256.0) + 0.5; // 0.5 to 1.0
+        CGFloat b = (arc4random() % 128 / 256.0) + 0.5; // 0.5 to 1.0
+        
+        // Set a random fill color
+        CGContextSetFillColorWithColor(context, [UIColor colorWithHue:h saturation:s brightness:b alpha:1].CGColor);
         
         // Create CGRect to hold the ball
         CGRect frame = CGRectMake(0.0, 0.0, 50.0, 50.0);
