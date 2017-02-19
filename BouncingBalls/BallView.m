@@ -11,19 +11,19 @@
 @implementation BallView
     - (void)drawRect:(CGRect)rect
     {
-        // create current context
+        // Create current context
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        // set the fill color
+        // Set the fill color
         CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
         
-        // create CGRect to hold the ball
+        // Create CGRect to hold the ball
         CGRect frame = CGRectMake(0.0, 0.0, 50.0, 50.0);
         
-        // create our 2D ball
+        // Create our 2D ball
         CGContextAddEllipseInRect(context, frame);
         
-        // fill it with color
+        // Fill it with color
         CGContextFillEllipseInRect(context, frame);
     }
 
@@ -34,40 +34,40 @@
 
     - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
     {
-        // save the touch
+        // Save the touch
         UITouch *touch = [touches anyObject];
         
-        // get the location before move
+        // Get the location before move
         CGPoint prevLoc = [touch previousLocationInView:self];
         
-        // get the location upon move
+        // Get the location upon move
         CGPoint loc = [touch locationInView:self];
         
-        // calculate the new location of the ball
+        // Calculate the new location of the ball
         CGPoint nextLoc = CGPointMake(self.center.x + (loc.x - prevLoc.x), self.center.y + (loc.y - prevLoc.y));
         
-        /* prevent ball from going out of bounds of parent view */
-        // get x coord of midpoint of the ball
+        /* Prevent ball from going out of bounds of parent view */
+        // Get x coord of midpoint of the ball
         float midPointX = CGRectGetMidX(self.bounds);
         
-        // keep within bounds if moved too far right
+        // Keep within bounds if moved too far right
         if (nextLoc.x > self.superview.bounds.size.width - midPointX)
             nextLoc.x = self.superview.bounds.size.width - midPointX;
-        // or too far left
+        // Or too far left
         else if (nextLoc.x < midPointX)
             nextLoc.x = midPointX;
         
-        // get y coord of midpoint of the ball
+        // Get y coord of midpoint of the ball
         float midPointY = CGRectGetMidY(self.bounds);
         
-        // keep within bounds if move too far down
+        // Keep within bounds if move too far down
         if (nextLoc.y > self.superview.bounds.size.height - midPointY)
             nextLoc.y = self.superview.bounds.size.height - midPointY;
-        // or too far up
+        // Or too far up
         else if (nextLoc.y < midPointY)
             nextLoc.y = midPointY;
         
-        // move ball to its new location
+        // Move ball to its new location
         self.center = nextLoc;
     }
 

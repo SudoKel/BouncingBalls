@@ -16,13 +16,6 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eSw-eF-sW9" customClass="BallView">
-                                <rect key="frame" x="135" y="259" width="50" height="50"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.85106169870000004" green="0.85106169870000004" blue="0.85106169870000004" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.85106169871794868" green="0.85106169871794868" blue="0.85106169871794868" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
