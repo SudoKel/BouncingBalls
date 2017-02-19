@@ -37,25 +37,38 @@
         // save the touch
         UITouch *touch = [touches anyObject];
         
-        // get the new location of the touch
+        // get the location before move
+        CGPoint prevLoc = [touch previousLocationInView:self];
+        
+        // get the location upon move
         CGPoint loc = [touch locationInView:self];
         
-        // get the previous location of the touch
-        CGPoint prevloc = [touch previousLocationInView:self];
+        // calculate the new location of the ball
+        CGPoint nextLoc = CGPointMake(self.center.x + (loc.x - prevLoc.x), self.center.y + (loc.y - prevLoc.y));
         
-        // store current frame of the view as a CGRect
-        CGRect myFrame = self.frame;
+        /* prevent ball from going out of bounds of parent view */
+        // get x coord of midpoint of the ball
+        float midPointX = CGRectGetMidX(self.bounds);
         
-        // calculate the change in x and y coordinates using previous and new location of touch
-        float deltaX = loc.x - prevloc.x;
-        float deltaY = loc.y - prevloc.y;
+        // keep within bounds if moved too far right
+        if (nextLoc.x > self.superview.bounds.size.width - midPointX)
+            nextLoc.x = self.superview.bounds.size.width - midPointX;
+        // or too far left
+        else if (nextLoc.x < midPointX)
+            nextLoc.x = midPointX;
         
-        // assign the coordinates to the CGRect
-        myFrame.origin.x += deltaX;
-        myFrame.origin.y += deltaY;
+        // get y coord of midpoint of the ball
+        float midPointY = CGRectGetMidY(self.bounds);
         
-        // move the ball to the ball to its new location
-        self.frame = myFrame;
+        // keep within bounds if move too far down
+        if (nextLoc.y > self.superview.bounds.size.height - midPointY)
+            nextLoc.y = self.superview.bounds.size.height - midPointY;
+        // or too far up
+        else if (nextLoc.y < midPointY)
+            nextLoc.y = midPointY;
+        
+        // move ball to its new location
+        self.center = nextLoc;
     }
 
     - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
