@@ -21,7 +21,7 @@
     // Handle long press event on root view or arena
     self.longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(addNewBall:)];
     self.longPress.minimumPressDuration = 0.5f;
-    self.longPress.allowableMovement = 100.0f;
+    self.longPress.allowableMovement = 50.0f;
     [self.view addGestureRecognizer:self.longPress];
 }
 

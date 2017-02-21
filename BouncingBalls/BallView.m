@@ -50,7 +50,8 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
 {
-    
+    // Get the original center point of the ball upon initial
+    self.originPoint = self.center;
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
@@ -94,11 +95,47 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
 {
+    // Determine the slope of the path to take
+    self.slope = (self.center.y - self.originPoint.y) / (self.center.x - self.originPoint.x);
     
+    // Determine the y-intercept of the path to take
+    self.yIntercept = self.center.y - (self.slope * self.center.x);
+    
+    // Set the initial velocity of the ball
+    self.velocity = 50.0;
+    
+    // Set timer to refresh screen for updates on ball movement
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
+    
+    // Store reference to timer
+    self.repeatingTimer = timer;
 }
 
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
+- (void)moveBall:(void *)nothing
 {
+    CGFloat nextX = 0.0;
     
+    // Determine if path is moving left or right and set the next x coord accordingly
+    if (self.originPoint.x - self.center.x > 0)
+        nextX = self.center.x - 2;
+    else
+        nextX = self.center.x + 2;
+    
+    // Determine the corresponding y coord using the slope and y-intercept of the path
+    CGFloat nextY = (self.slope * nextX) + self.yIntercept;
+    
+    if (self.velocity > 0.0)
+    {
+        // Update the ball's center as long as it still has some velocity
+        self.center = CGPointMake(nextX, nextY);
+        
+        // Reduce the ball's velocity by 1 so it eventually stops
+        self.velocity -= 1.0;
+    }
+    else
+    {
+        // Otherwise stop the ball
+        [self.repeatingTimer invalidate];
+    }
 }
 @end

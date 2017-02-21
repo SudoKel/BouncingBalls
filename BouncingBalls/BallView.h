@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface BallView : UIView
-
+// Properties
+@property CGPoint originPoint;
+@property CGFloat velocity;
+@property CGFloat slope;
+@property CGFloat yIntercept;
+@property (nonatomic, weak)NSTimer *repeatingTimer;
 @end
