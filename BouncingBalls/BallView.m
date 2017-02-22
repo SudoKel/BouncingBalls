@@ -31,6 +31,15 @@
     // Fill it with color
     CGContextFillEllipseInRect(context, frame);
     
+    // Set the radius, energy and origin point of the ball at rest
+    self.radius = self.frame.size.height/2.0;
+    self.energy = 0;
+    self.originPoint = self.center;
+    
+    // Set the slope and y-intercept of path to reflect ball at rest
+    self.slope = 0;
+    self.yIntercept = 0;
+    
     // Handle double tap event
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBall:)];
     tapGesture.numberOfTapsRequired = 2;
@@ -101,41 +110,32 @@
     // Determine the y-intercept of the path to take
     self.yIntercept = self.center.y - (self.slope * self.center.x);
     
-    // Set the initial velocity of the ball
-    self.velocity = 50.0;
-    
-    // Set timer to refresh screen for updates on ball movement
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-    
-    // Store reference to timer
-    self.repeatingTimer = timer;
+    // Set the initial energy of the ball
+    self.energy = 50.0;
 }
 
 - (void)moveBall:(void *)nothing
 {
     CGFloat nextX = 0.0;
     
-    // Determine if path is moving left or right and set the next x coord accordingly
+    // Determine if ball is moving left or right and set the next x coord accordingly
     if (self.originPoint.x - self.center.x > 0)
-        nextX = self.center.x - 2;
+        nextX = self.center.x - 2;                     // Ball moving right
+    else if (self.originPoint.x - self.center.x < 0)
+        nextX = self.center.x + 2;                     // Ball moving left
     else
-        nextX = self.center.x + 2;
+        nextX = self.center.x;                         // Ball is stationary
     
     // Determine the corresponding y coord using the slope and y-intercept of the path
     CGFloat nextY = (self.slope * nextX) + self.yIntercept;
     
-    if (self.velocity > 0.0)
+    if (self.energy > 0.0)
     {
         // Update the ball's center as long as it still has some velocity
         self.center = CGPointMake(nextX, nextY);
         
         // Reduce the ball's velocity by 1 so it eventually stops
-        self.velocity -= 1.0;
-    }
-    else
-    {
-        // Otherwise stop the ball
-        [self.repeatingTimer invalidate];
+        self.energy -= 1.0;
     }
 }
 @end

@@ -10,9 +10,12 @@
 
 @interface BallView : UIView
 // Properties
+@property CGFloat radius;
 @property CGPoint originPoint;
-@property CGFloat velocity;
+@property CGFloat energy;
 @property CGFloat slope;
 @property CGFloat yIntercept;
-@property (nonatomic, weak)NSTimer *repeatingTimer;
+
+// Public methods
+- (void)moveBall:(void *)nothing;
 @end
