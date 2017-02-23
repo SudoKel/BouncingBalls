@@ -31,10 +31,13 @@
     // Fill it with color
     CGContextFillEllipseInRect(context, frame);
     
-    // Set the radius, energy and origin point of the ball at rest
+    // Set the radius and origin point of the ball
     self.radius = self.frame.size.height/2.0;
-    self.energy = 0;
     self.originPoint = self.center;
+    
+    // The ball is at rest initially
+    self.momentum = 0;
+    self.stationary = YES;
     
     // Set the slope and y-intercept of path to reflect ball at rest
     self.slope = 0;
@@ -59,7 +62,9 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
 {
-    // Get the original center point of the ball upon initial
+    // Stop the ball
+    self.momentum = 0;
+    self.stationary = YES;
     self.originPoint = self.center;
 }
 
@@ -100,42 +105,63 @@
     
     // Move ball to its new location
     self.center = nextLoc;
+    
+    // Ball should move after flick
+    self.stationary = NO;
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    // Determine the slope of the path to take
-    self.slope = (self.center.y - self.originPoint.y) / (self.center.x - self.originPoint.x);
-    
-    // Determine the y-intercept of the path to take
-    self.yIntercept = self.center.y - (self.slope * self.center.x);
-    
-    // Set the initial energy of the ball
-    self.energy = 50.0;
+    if (!self.stationary)
+    {
+        // Determine the slope of the path to take
+        self.slope = (self.originPoint.y - self.center.y) / (self.originPoint.x - self.center.x);
+        NSLog(@"Slope is %f", self.slope);
+        
+        // Determine the y-intercept of the path to take
+        self.yIntercept = self.center.y - (self.slope * self.center.x);
+        
+        // Set the initial momentum of the ball
+        self.momentum = 50.0;
+        
+        // Determine if ball is moving left or right
+        if (self.originPoint.x - self.center.x > 0)
+        {
+            // Ball moving left
+            self.leftToRight = NO;
+            self.stationary = NO;
+            NSLog(@"moving left");
+        }
+        else if (self.originPoint.x - self.center.x < 0)
+        {
+            // Ball moving right
+            self.leftToRight = YES;
+            self.stationary = NO;
+            NSLog(@"moving right");
+        }
+    }
 }
 
 - (void)moveBall:(void *)nothing
 {
-    CGFloat nextX = 0.0;
-    
-    // Determine if ball is moving left or right and set the next x coord accordingly
-    if (self.originPoint.x - self.center.x > 0)
-        nextX = self.center.x - 2;                     // Ball moving right
-    else if (self.originPoint.x - self.center.x < 0)
-        nextX = self.center.x + 2;                     // Ball moving left
-    else
-        nextX = self.center.x;                         // Ball is stationary
-    
-    // Determine the corresponding y coord using the slope and y-intercept of the path
-    CGFloat nextY = (self.slope * nextX) + self.yIntercept;
-    
-    if (self.energy > 0.0)
+    // Only move ball if it has some momentum
+    if (self.momentum > 0.0)
     {
-        // Update the ball's center as long as it still has some velocity
-        self.center = CGPointMake(nextX, nextY);
+        CGFloat nextX = 0.0;
         
-        // Reduce the ball's velocity by 1 so it eventually stops
-        self.energy -= 1.0;
+        // Determine the next x coordinate
+        if (self.leftToRight && !self.stationary)
+            nextX = self.center.x + 1;
+        else if (!self.leftToRight && !self.stationary)
+            nextX = self.center.x - 1;
+        else
+            nextX = self.center.x;
+        
+        // Determine the corresponding y coordinate using the slope and y-intercept of the path
+        CGFloat nextY = (self.slope * nextX) + self.yIntercept;
+        
+        // Update the center point of the ball
+        self.center = CGPointMake(nextX, nextY);
     }
 }
 @end

@@ -12,7 +12,9 @@
 // Properties
 @property CGFloat radius;
 @property CGPoint originPoint;
-@property CGFloat energy;
+@property BOOL leftToRight;
+@property BOOL stationary;
+@property CGFloat momentum;
 @property CGFloat slope;
 @property CGFloat yIntercept;
 

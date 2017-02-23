@@ -502,6 +502,7 @@
 				1438437C1E58AB5300A242CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1438437D1E58AB5300A242CF /* Build configuration list for PBXNativeTarget "BouncingBallsTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +511,7 @@
 				1438437F1E58AB5300A242CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		143843801E58AB5300A242CF /* Build configuration list for PBXNativeTarget "BouncingBallsUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +520,7 @@
 				143843821E58AB5300A242CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
