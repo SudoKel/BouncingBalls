@@ -151,14 +151,52 @@
         
         // Determine the next x coordinate
         if (self.leftToRight && !self.stationary)
-            nextX = self.center.x + 1;
+            nextX = self.center.x + 0.1;
         else if (!self.leftToRight && !self.stationary)
-            nextX = self.center.x - 1;
+            nextX = self.center.x - 0.1;
         else
             nextX = self.center.x;
         
         // Determine the corresponding y coordinate using the slope and y-intercept of the path
         CGFloat nextY = (self.slope * nextX) + self.yIntercept;
+        
+        /* Prevent ball from going out of bounds of parent view */
+        // Get x coord of midpoint of the ball
+        float midPointX = CGRectGetMidX(self.bounds);
+        
+        // Keep within bounds if moved too far right
+        if (nextX > self.superview.bounds.size.width - midPointX)
+        {
+            nextX = self.superview.bounds.size.width - midPointX;
+            self.slope *= -1;
+            self.yIntercept = self.center.y - (self.slope * self.center.x);
+            self.leftToRight = !self.leftToRight;
+        }
+        // Or too far left
+        else if (nextX < midPointX)
+        {
+            nextX = midPointX;
+            self.slope *= -1;
+            self.yIntercept = self.center.y - (self.slope * self.center.x);
+            self.leftToRight = !self.leftToRight;
+        }
+        // Get y coord of midpoint of the ball
+        float midPointY = CGRectGetMidY(self.bounds);
+        
+        // Keep within bounds if move too far down
+        if (nextY > self.superview.bounds.size.height - midPointY)
+        {
+            nextY = self.superview.bounds.size.height - midPointY;
+            self.slope *= -1;
+            self.yIntercept = self.center.y - (self.slope * self.center.x);
+        }
+        // Or too far up
+        else if (nextY < midPointY)
+        {
+            nextY = midPointY;
+            self.slope *= -1;
+            self.yIntercept = self.center.y - (self.slope * self.center.x);
+        }
         
         // Update the center point of the ball
         self.center = CGPointMake(nextX, nextY);

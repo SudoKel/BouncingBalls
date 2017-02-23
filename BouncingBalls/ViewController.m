@@ -31,7 +31,7 @@
     [self.view addGestureRecognizer:self.longPress];
     
     // Set timer to refresh screen for updates on ball movement
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkCollisions:) userInfo:nil repeats:YES];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(checkCollisions:) userInfo:nil repeats:YES];
     
     // Store a reference to the timer
     self.repeatingTimer = timer;
@@ -217,7 +217,26 @@
                         otherBall.stationary = NO;
                         otherBall.momentum = 50;
                         otherBall.leftToRight = ball.leftToRight;
+                        NSLog(@"check 1");
                     }
+                    else if (ball.leftToRight && !otherBall.leftToRight)
+                    {
+                        ball.leftToRight = NO;
+                        otherBall.leftToRight = YES;
+                        NSLog(@"check 2");
+                    }
+                    else if (!ball.leftToRight && otherBall.leftToRight)
+                    {
+                        ball.leftToRight = YES;
+                        otherBall.leftToRight = NO;
+                        NSLog(@"check 3");
+                    }
+                    else if (ball.leftToRight && otherBall.leftToRight)
+                    {
+                        //otherBall.leftToRight = NO;
+                        NSLog(@"check 4");
+                    }
+                    
 //                    else if (ballFinalVelocityVectorX > 0 && otherBallFinalVelocityVectorX > 0)
 //                    {
 //                        ball.leftToRight = YES;
@@ -238,7 +257,7 @@
 //                        ball.leftToRight = NO;
 //                        otherBall.leftToRight = YES;
 //                    }
-                    
+//                    
                 }
             }
         }
