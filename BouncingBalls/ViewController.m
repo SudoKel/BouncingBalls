@@ -90,6 +90,27 @@
                     NSLog(@"Center of other ball: %@", NSStringFromCGPoint(otherBall.center));
                     NSLog(@"Origin of other ball: %@", NSStringFromCGPoint(otherBall.originPoint));
                     
+                    if (distance < ball.radius + otherBall.radius)
+                    {
+                        NSLog(@"Distance before: %f", distance);
+                        NSLog(@"Difference before: %f", (ball.radius + otherBall.radius) - distance);
+                        
+                        CGFloat difference = (ball.radius + otherBall.radius) - distance;
+                        CGFloat angle = atanf((ball.center.y - otherBall.center.y) / (ball.center.x - otherBall.center.x));
+                        NSLog(@"Arctan of %f / %f: %f", ball.center.y - otherBall.center.y, ball.center.x - otherBall.center.x, angle);
+                        CGFloat x = difference * cosf(angle);
+                        CGFloat y = difference * sinf(angle);
+                        NSLog(@"X and Y: (%f, %f)", x, y);
+                        
+                        ball.center = CGPointMake(ball.center.x + x, ball.center.y + y);
+                        otherBall.center = CGPointMake(otherBall.center.x + x, otherBall.center.y + y);
+                        
+                        distance = sqrtf((powf(ball.center.x - otherBall.center.x, 2)) + (powf(ball.center.y - otherBall.center.y, 2)));
+                        
+                        NSLog(@"Difference after: %f", (ball.radius + otherBall.radius) - distance);
+                    }
+                    
+                    
                     /* 
                      For the following calculations, we will deal with vectors by breaking them down
                      into their respective X and Y components
@@ -98,7 +119,7 @@
                     CGFloat normalVectorX = otherBall.center.x - ball.center.x;
                     CGFloat normalVectorY = otherBall.center.y - ball.center.y;
                     
-                    NSLog(@"Normal vector: (%f,%f)", normalVectorX, normalVectorY);
+                    NSLog(@"Normal vector: (%f, %f)", normalVectorX, normalVectorY);
                     
                     // Calculate magnitude of the normal vector
                     CGFloat normalVectorMagnitude = sqrtf(powf(normalVectorX, 2) + powf(normalVectorY, 2));
@@ -109,24 +130,24 @@
                     CGFloat unitNormalVectorX = (1 / normalVectorMagnitude) * normalVectorX;
                     CGFloat unitNormalVectorY = (1 / normalVectorMagnitude) * normalVectorY;
                     
-                    NSLog(@"Unit normal vector: (%f,%f)", unitNormalVectorX, unitNormalVectorY);
+                    NSLog(@"Unit normal vector: (%f, %f)", unitNormalVectorX, unitNormalVectorY);
                     
                     // Calculate the unit tangent vector
                     CGFloat unitTangentVectorX = unitNormalVectorY * -1;
                     CGFloat unitTangentVectorY = unitNormalVectorX;
                     
-                    NSLog(@"Unit tangent vector: (%f,%f)", unitTangentVectorX, unitTangentVectorY);
+                    NSLog(@"Unit tangent vector: (%f, %f)", unitTangentVectorX, unitTangentVectorY);
                     
                     // Calculate the initial velocity vectors for each ball
                     CGFloat ballInitialVelocityVectorX = ball.originPoint.x - ball.center.x;
                     CGFloat ballInitialVelocityVectorY = ball.originPoint.y - ball.center.y;
                     
-                    NSLog(@"Ball velocity vector: (%f,%f)", ballInitialVelocityVectorX, ballInitialVelocityVectorY);
+                    NSLog(@"Ball velocity vector: (%f, %f)", ballInitialVelocityVectorX, ballInitialVelocityVectorY);
                     
                     CGFloat otherBallInitialVelocityVectorX = otherBall.originPoint.x - otherBall.center.x;
                     CGFloat otherBallInitialVelocityVectorY = otherBall.originPoint.y - otherBall.center.y;
                     
-                    NSLog(@"Other ball velocity vector: (%f,%f)", otherBallInitialVelocityVectorX, otherBallInitialVelocityVectorY);
+                    NSLog(@"Other ball velocity vector: (%f, %f)", otherBallInitialVelocityVectorX, otherBallInitialVelocityVectorY);
                     
                     // Calculate scalar velocity of each ball in the normal direction (before collision)
                     CGFloat ballNormalVelocity = (unitNormalVectorX * ballInitialVelocityVectorX) +
@@ -169,34 +190,34 @@
                     CGFloat ballNormalVelocityVectorX = ballNormalFinalVelocity * unitNormalVectorX;
                     CGFloat ballNormalVelocityVectorY = ballNormalFinalVelocity * unitNormalVectorY;
                     
-                    NSLog(@"Ball normal velocity vector: (%f,%f)", ballNormalVelocityVectorX, ballNormalVelocityVectorY);
+                    NSLog(@"Ball normal velocity vector: (%f, %f)", ballNormalVelocityVectorX, ballNormalVelocityVectorY);
                     
                     CGFloat otherBallNormalVelocityVectorX = otherBallNormalFinalVelocity * unitNormalVectorX;
                     CGFloat otherBallNormalVelocityVectorY = otherBallNormalFinalVelocity * unitNormalVectorY;
                     
-                    NSLog(@"Other ball normal velocity vector: (%f,%f)", otherBallNormalVelocityVectorX, otherBallNormalVelocityVectorY);
+                    NSLog(@"Other ball normal velocity vector: (%f, %f)", otherBallNormalVelocityVectorX, otherBallNormalVelocityVectorY);
                     
                     // Calculate the tangent velocity vectors of each ball (after collision)
                     CGFloat ballTangentVelocityVectorX = ballTangentVelocity * unitTangentVectorX;
                     CGFloat ballTangentVelocityVectorY = ballTangentVelocity * unitTangentVectorY;
                     
-                    NSLog(@"Ball tangent velocity vector: (%f,%f)", ballTangentVelocityVectorX, ballTangentVelocityVectorY);
+                    NSLog(@"Ball tangent velocity vector: (%f, %f)", ballTangentVelocityVectorX, ballTangentVelocityVectorY);
                     
                     CGFloat otherBallTangentVelocityVectorX = otherBallTangentVelocity * unitTangentVectorX;
                     CGFloat otherBallTangentVelocityVectorY = otherBallTangentVelocity * unitTangentVectorY;
                     
-                    NSLog(@"Other ball tangent velocity vector: (%f,%f)", otherBallTangentVelocityVectorX, otherBallTangentVelocityVectorY);
+                    NSLog(@"Other ball tangent velocity vector: (%f, %f)", otherBallTangentVelocityVectorX, otherBallTangentVelocityVectorY);
                     
                     // Finally, calculate the final velocity vectors of each ball
                     CGFloat ballFinalVelocityVectorX = ballNormalVelocityVectorX + ballTangentVelocityVectorX;
                     CGFloat ballFinalVelocityVectorY = ballNormalVelocityVectorY + ballTangentVelocityVectorY;
                     
-                    NSLog(@"Ball final velocity vector: (%f,%f)", ballFinalVelocityVectorX, ballFinalVelocityVectorY);
+                    NSLog(@"Ball final velocity vector: (%f, %f)", ballFinalVelocityVectorX, ballFinalVelocityVectorY);
                     
                     CGFloat otherBallFinalVelocityVectorX = otherBallNormalVelocityVectorX + otherBallTangentVelocityVectorX;
                     CGFloat otherBallFinalVelocityVectorY = otherBallNormalVelocityVectorY + otherBallTangentVelocityVectorY;
                     
-                    NSLog(@"Other ball final velocity vector: (%f,%f)", otherBallFinalVelocityVectorX, otherBallFinalVelocityVectorY);
+                    NSLog(@"Other ball final velocity vector: (%f, %f)", otherBallFinalVelocityVectorX, otherBallFinalVelocityVectorY);
                     
                     NSLog(@"Old slope of ball: %f", ball.slope);
                     NSLog(@"Old slope of other ball: %f", otherBall.slope);

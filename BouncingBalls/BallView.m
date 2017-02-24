@@ -151,9 +151,9 @@
         
         // Determine the next x coordinate
         if (self.leftToRight && !self.stationary)
-            nextX = self.center.x + 0.1;
+            nextX = self.center.x + 0.5;
         else if (!self.leftToRight && !self.stationary)
-            nextX = self.center.x - 0.1;
+            nextX = self.center.x - 0.5;
         else
             nextX = self.center.x;
         
