@@ -84,11 +84,6 @@
                 if (distance <= ball.radius + otherBall.radius)
                 {
                     // Balls have collided
-                    NSLog(@"Balls have collided!");
-                    NSLog(@"Center of ball: %@", NSStringFromCGPoint(ball.center));
-                    NSLog(@"Origin of ball: %@", NSStringFromCGPoint(ball.originPoint));
-                    NSLog(@"Center of other ball: %@", NSStringFromCGPoint(otherBall.center));
-                    NSLog(@"Origin of other ball: %@", NSStringFromCGPoint(otherBall.originPoint));
                     
 //                    if (distance < ball.radius + otherBall.radius)
 //                    {
@@ -150,6 +145,22 @@
  */
 - (void) calculateNewPathsForBall:(BallView *)ball otherBall:(BallView *)otherBall
 {
+//    NSLog(@"Balls have collided!");
+//    NSLog(@"Center of ball: %@", NSStringFromCGPoint(ball.center));
+//    NSLog(@"Origin of ball: %@", NSStringFromCGPoint(ball.originPoint));
+//    NSLog(@"Center of other ball: %@", NSStringFromCGPoint(otherBall.center));
+//    NSLog(@"Origin of other ball: %@", NSStringFromCGPoint(otherBall.originPoint));
+//    
+//    if (ball.leftToRight)
+//        NSLog(@"Ball moving right...");
+//    else
+//        NSLog(@"Ball moving left...");
+//    
+//    if (otherBall.leftToRight)
+//        NSLog(@"Other ball moving right...");
+//    else
+//        NSLog(@"Other ball moving left...");
+    
     /*
      For the following calculations, we will deal with vectors by breaking them down
      into their respective X and Y components
@@ -257,7 +268,7 @@
     CGFloat otherBallFinalVelocityVectorY = otherBallNormalVelocityVectorY + otherBallTangentVelocityVectorY;
     
 //    NSLog(@"Other ball final velocity vector: (%f, %f)", otherBallFinalVelocityVectorX, otherBallFinalVelocityVectorY);
-//    
+    
 //    NSLog(@"Old slope of ball: %f", ball.slope);
 //    NSLog(@"Old slope of other ball: %f", otherBall.slope);
     
@@ -266,11 +277,14 @@
     ball.yIntercept = ball.center.y - (ball.slope * ball.center.x);
     
 //    NSLog(@"New slope of ball: %f", ball.slope);
+//    NSLog(@"New yIntercept of ball: %f", ball.yIntercept);
+    
     
     otherBall.slope = otherBallFinalVelocityVectorY / otherBallFinalVelocityVectorX;
     otherBall.yIntercept = otherBall.center.y - (otherBall.slope * otherBall.center.x);
     
 //    NSLog(@"New slope of other ball: %f", otherBall.slope);
+//    NSLog(@"New yIntercept of other ball: %f", otherBall.yIntercept);
     
     // Set the direction for the balls after collision
     if (otherBall.stationary)
@@ -279,20 +293,10 @@
         otherBall.momentum = 50;
         otherBall.leftToRight = ball.leftToRight;
         ball.leftToRight = !ball.leftToRight;
-        NSLog(@"check 1");
+        NSLog(@"CHECK 0");
         return;
     }
-    else if (ball.leftToRight && !otherBall.leftToRight)
-    {
-        ball.leftToRight = NO;
-        otherBall.leftToRight = YES;
-        NSLog(@"check 2");
-    }
-    else if (!ball.leftToRight && otherBall.leftToRight)
-    {
-        ball.leftToRight = YES;
-        otherBall.leftToRight = NO;
-        NSLog(@"check 3");
-    }
+    else
+        ball.leftToRight = !ball.leftToRight;
 }
 @end
