@@ -1,3 +1,3 @@
 # BouncingBalls
 
-This is an iOS app that simulates bouncing balls with some real physics. You can add, remove and flick balls.
+This is an iOS app that simulates bouncing balls with elastic collisions. You can add, remove and flick balls within the arena.
