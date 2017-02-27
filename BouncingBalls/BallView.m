@@ -2,6 +2,9 @@
 //  BallView.m
 //  BouncingBalls
 //
+//  This class is used to create a ball object,
+//  that can be flicked and moved within the arena.
+//
 //  Created by Kelwin Joanes on 2017-02-18.
 //  Copyright © 2017 com.kelel. All rights reserved.
 //
@@ -36,7 +39,7 @@
     self.originPoint = self.center;
     
     // The ball is at rest initially
-    self.momentum = 0;
+    self.speed = 0;
     self.stationary = YES;
     
     // Set the slope and y-intercept of path to reflect ball at rest
@@ -63,7 +66,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
 {
     // Stop the ball
-    self.momentum = 0;
+    self.speed = 0;
     self.stationary = YES;
     self.originPoint = self.center;
 }
@@ -116,13 +119,12 @@
     {
         // Determine the slope of the path to take
         self.slope = (self.originPoint.y - self.center.y) / (self.originPoint.x - self.center.x);
-        NSLog(@"Slope is %f", self.slope);
         
         // Determine the y-intercept of the path to take
         self.yIntercept = self.center.y - (self.slope * self.center.x);
         
-        // Set the initial momentum of the ball
-        self.momentum = 50.0;
+        // Set the initial speed of the ball
+        self.speed = 1.0;
         
         // Determine if ball is moving left or right
         if (self.originPoint.x - self.center.x > 0)
@@ -130,76 +132,13 @@
             // Ball moving left
             self.leftToRight = NO;
             self.stationary = NO;
-            NSLog(@"moving left");
         }
         else if (self.originPoint.x - self.center.x < 0)
         {
             // Ball moving right
             self.leftToRight = YES;
             self.stationary = NO;
-            NSLog(@"moving right");
         }
-    }
-}
-
-- (void)moveBall:(void *)nothing
-{
-    // Only move ball if it has some momentum
-    if (self.momentum > 0.0)
-    {
-        CGFloat nextX = 0.0;
-        
-        // Determine the next x coordinate
-        if (self.leftToRight && !self.stationary)
-            nextX = self.center.x + 1;
-        else if (!self.leftToRight && !self.stationary)
-            nextX = self.center.x - 1;
-        else
-            nextX = self.center.x;
-        
-        // Determine the corresponding y coordinate using the slope and y-intercept of the path
-        CGFloat nextY = (self.slope * nextX) + self.yIntercept;
-        
-        /* Prevent ball from going out of bounds of parent view */
-        // Get x coord of midpoint of the ball
-        float midPointX = CGRectGetMidX(self.bounds);
-        
-        // Keep within bounds if moved too far right
-        if (nextX > self.superview.bounds.size.width - midPointX)
-        {
-            nextX = self.superview.bounds.size.width - midPointX;
-            self.slope *= -1;
-            self.yIntercept = self.center.y - (self.slope * self.center.x);
-            self.leftToRight = !self.leftToRight;
-        }
-        // Or too far left
-        else if (nextX < midPointX)
-        {
-            nextX = midPointX;
-            self.slope *= -1;
-            self.yIntercept = self.center.y - (self.slope * self.center.x);
-            self.leftToRight = !self.leftToRight;
-        }
-        // Get y coord of midpoint of the ball
-        float midPointY = CGRectGetMidY(self.bounds);
-        
-        // Keep within bounds if move too far down
-        if (nextY > self.superview.bounds.size.height - midPointY)
-        {
-            nextY = self.superview.bounds.size.height - midPointY;
-            self.slope *= -1;
-            self.yIntercept = self.center.y - (self.slope * self.center.x);
-        }
-        // Or too far up
-        else if (nextY < midPointY)
-        {
-            nextY = midPointY;
-            self.slope *= -1;
-            self.yIntercept = self.center.y - (self.slope * self.center.x);
-        }
-        
-        // Update the center point of the ball
-        self.center = CGPointMake(nextX, nextY);
     }
 }
 @end
